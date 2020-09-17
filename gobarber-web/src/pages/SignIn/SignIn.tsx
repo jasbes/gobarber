@@ -16,7 +16,8 @@ import { Input } from '../../components/Input';
 
 import { Button } from '../../components/Button';
 
-import { useAuth } from '../../hooks/AuthContext';
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 
 import { Container, Content, Background } from './styles';
 
@@ -30,25 +31,34 @@ const SignIn: React.FC = () => {
 
   const { signIn } = useAuth();
 
-  const handleSubmit = useCallback(async (data: SignInFormData) => {
-    try {
-      formRef.current?.setErrors({});
-      const schema = Yup.object().shape({
-        email: Yup.string().required('E-mail obrigatório').email(),
-        password: Yup.string().required('Senha obrigatório'),
-      });
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+  const { addToast } = useToast();
 
-      signIn({
-        email: data.email,
-        password: data.password,
-      });
-    } catch (error) {
-      formRef.current?.setErrors(getValidationErrors(error));
-    }
-  }, []);
+  const handleSubmit = useCallback(
+    async (data: SignInFormData) => {
+      try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          email: Yup.string().required('E-mail obrigatório').email(),
+          password: Yup.string().required('Senha obrigatório'),
+        });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          formRef.current?.setErrors(getValidationErrors(error));
+        }
+
+        addToast();
+      }
+    },
+    [signIn, addToast],
+  );
   return (
     <Container>
       <Content>
