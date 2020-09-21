@@ -42,7 +42,7 @@ const Toast: React.FC<ContainerProps> = ({ toast, style }) => {
 
       <div>
         <strong>{toast.title}</strong>
-        {toast.description && <p>message.description</p>}
+        {toast.description && <p>{toast.description}</p>}
       </div>
 
       <button onClick={() => removeToast(toast.id)} type="button">
