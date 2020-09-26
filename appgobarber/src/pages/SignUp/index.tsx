@@ -20,6 +20,7 @@ import {
   BackToSignInButton,
   BackToSignInButtonText,
 } from './styles';
+import api from '../../services/api';
 
 interface SignUpFromData {
   name: string;
@@ -34,6 +35,8 @@ const SignUp: React.FC = () => {
 
   const passwordInputRef = useRef<TextInput>();
 
+  const navigation = useNavigation();
+
   const handleSignUp = useCallback(
     async (data: SignUpFromData) => {
       try {
@@ -47,9 +50,9 @@ const SignUp: React.FC = () => {
           abortEarly: false,
         });
 
-        // await api.post('users', data);
+        await api.post('/users', data);
 
-        // history.push('/');
+        navigation.goBack();
 
         Alert.alert(
           'Cadastro realizado',
@@ -67,10 +70,9 @@ const SignUp: React.FC = () => {
         );
       }
     },
-    [],
+    [navigation],
   );
 
-  const navigation = useNavigation();
   return (
     <>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined} enabled>
