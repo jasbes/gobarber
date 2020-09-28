@@ -28,9 +28,7 @@ usersRouter.patch(
   ensureAuthenticated,
   upload.single('avatar'),
   async (request, response) => {
-    const updateUserAvatarService = new UpdateUserAvatarService(
-      usersRepository,
-    );
+    const updateUserAvatarService = container.resolve(UpdateUserAvatarService);
 
     const user = await updateUserAvatarService.execute({
       user_id: request.user.id,
