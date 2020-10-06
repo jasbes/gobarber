@@ -7,7 +7,7 @@ interface IRequest {
   user_id: string;
 }
 @injectable()
-class ListProvidersService {
+export default class ListProvidersService {
   constructor(
     @inject('UsersRepository') private usersRepository: IUsersRepository,
   ) {}
@@ -20,5 +20,3 @@ class ListProvidersService {
     return providers;
   }
 }
-
-export default ListProvidersService;
