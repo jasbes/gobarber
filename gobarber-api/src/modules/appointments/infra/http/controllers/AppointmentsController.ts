@@ -25,12 +25,4 @@ export default class AppointmentsController {
 
     return response.status(201).json(appointment);
   }
-
-  public async listAll(
-    request: Request,
-    response: Response,
-  ): Promise<Response> {
-    // const appointments = await appointmentsRepository.find();
-    return response.json([]);
-  }
 }
