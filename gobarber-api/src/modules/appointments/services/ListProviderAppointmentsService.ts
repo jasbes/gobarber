@@ -40,7 +40,7 @@ export default class ListProviderAppointmentsService {
 
       await this.cacheProvider.save(
         cacheKey,
-        JSON.stringify(classToClass(providerAppointments)),
+        classToClass(providerAppointments),
       );
     }
 
